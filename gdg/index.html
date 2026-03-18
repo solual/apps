@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>gdg</title>
+  <link rel="icon" href="fav.ico" />
+  <style>
+        body {
+      margin: 0;
+      padding: 0;
+      background: #0e0e0e;
+      color: #e0e0e0;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .wrap {
+      max-width: 720px;
+      margin: 50px auto;
+      padding: 30px;
+      background: #161616;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+    }
+    h1 {
+      margin-bottom: 24px;
+      font-size: 22px;
+      font-weight: 700;
+      border-bottom: 1px solid #333;
+      padding-bottom: 10px;
+      color: #fff;
+    }
+    label {
+      display: block;
+      margin-top: 20px;
+      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: bold;
+      color: #aaa;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+    textarea,
+    input,
+    select {
+      width: 100%;
+      background: #0d0d0d;
+      border: 1px solid #333;
+      color: #eee;
+      padding: 12px 14px;
+      border-radius: 6px;
+      resize: vertical;
+      font-family: monospace;
+      font-size: 14px;
+      transition: border 0.2s, box-shadow 0.2s;
+    }
+    textarea:focus,
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: #66d9ef;
+      box-shadow: 0 0 0 2px rgba(102, 217, 239, 0.2);
+    }
+    textarea {
+      height: 110px;
+    }
+    button {
+      margin-top: 24px;
+      width: 100%;
+      background: #1e1e1e;
+      color: #ccc;
+      border: 1px solid #444;
+      padding: 14px;
+      font-weight: bold;
+      font-size: 14px;
+      text-transform: uppercase;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    }
+    button:hover {
+      background: #2a2a2a;
+      color: #fff;
+      box-shadow: 0 0 6px rgba(255, 255, 255, 0.05);
+    }
+    pre {
+      background: #0a0a0a;
+      margin-top: 30px;
+      padding: 18px;
+      border: 1px solid #222;
+      border-radius: 6px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: monospace;
+      font-size: 13.5px;
+      color: #ccc;
+      min-height: 150px;
+      overflow-x: auto;
+    }
+    .error {
+      color: #ff5252;
+      font-size: 13px;
+      margin-top: 6px;
+    }
+    .footer {
+      text-align: center;
+      padding: 24px 0;
+      font-size: 13px;
+      color: #888;
+      position: relative;
+    }
+    .footer a {
+      color: #bbb;
+      text-decoration: none;
+      position: relative;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    .preview-link {
+      position: relative;
+    }
+    .img-preview {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    bottom: 140%;
+    left: 50%;
+    transform: translateX(-50%) scale(0.9);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 1000;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    border: 2.5px solid #264747;
+    pointer-events: none; 
+    }
+    
+    .img-preview img {
+      max-width: 300px;
+      display: block;
+      border-radius: 10px;
+    }
+
+  .preview-link:hover .img-preview,
+    .preview-link .img-preview:hover {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+    pointer-events: auto;
+    }
+    </style>
+</head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PXHK7Q7G3Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-PXHK7Q7G3Z');
+</script>
+<body>
+  <div class="wrap">
+    <h1>gdg</h1>
+    <label for="games">game names (comma separated)</label>
+    <textarea id="games" placeholder="ovo, 1v1, geometry dash"></textarea>
+    <div id="error" class="error"></div>
+    <label for="imgPath">image path (used if no full URL provided)</label>
+    <input id="imgPath" value="/name/whatever/" />
+    <label for="caseOption">text case format</label>
+    <select id="caseOption">
+      <option value="lowercase">lowercase</option>
+      <option value="underscore">underscore_case</option>
+      <option value="capitalized">Capitalized</option>
+      <option value="title">Title Case</option>
+      <option value="uppercase">UPPERCASE</option>
+    </select>
+    <label for="outputType">output type</label>
+    <select id="outputType">
+      <option value="div">div block with link & image</option>
+      <option value="img-only">image with onclick</option>
+      <option value="anchor-img">anchor wrapping image</option>
+    </select>
+    <label for="customUrlPath">custom URL path for links (optional)</label>
+    <input id="customUrlPath" placeholder="/iframe.html?url=/name/whatever/" />
+    <label for="template">custom template (optional, overrides above)</label>
+    <textarea id="template" placeholder="use placeholders like {name}, {lowercase}, {img}, {linkUrl}"></textarea>
+    <button id="generateBtn">generate</button>
+    <pre id="output" placeholder="Output will appear here..."></pre>
+  </div>
+  <footer class="footer">
+    made by
+    <a href="/404.html" target="_blank" class="preview-link"> <!-- not so fast bog. -->
+  bog
+  <span class="img-preview">
+    <img src="pre.png" alt="preview" />
+  </span>
+</a>
+  </footer>
+<script>
+document.querySelector('.img-preview img').addEventListener('click', (e) => {
+  e.stopPropagation(); 
+  window.open('/404.html', '_blank');
+});
+
+</script>
+  <script>
+    const templates = {
+      div: `
+<div class="game" data-name="{name}">
+  <a href="{linkUrl}" class="game-link" target="_blank" rel="noopener noreferrer">
+    <img src="{img}" alt="{name}" class="game-thumbnail" />
+  </a>
+</div>`.trim(),
+
+      'img-only': `
+<img class="gamebtns" src="{img}" alt="{name}" onclick="window.location.href='{linkUrl}';" />`.trim(),
+
+      'anchor-img': `
+<a href="{linkUrl}" target="_blank" rel="noopener noreferrer">
+  <img class="imgbutton" src="{img}" alt="{name}" loading="lazy" fetchpriority="low" />
+</a>`.trim(),
+    };
+
+    function formatText(text, mode) {
+      switch (mode) {
+        case 'lowercase': return text.toLowerCase();
+        case 'underscore': return text.toLowerCase().replace(/\s+/g, "_");
+        case 'capitalized': return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+        case 'title': return text.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
+        case 'uppercase': return text.toUpperCase();
+        default: return text;
+      }
+    }
+
+    function toIdFormat(text) {
+      return text.toLowerCase().replace(/\s+/g, "").replace(/[^\w-]/g, '');
+    }
+
+    function isFullUrl(str) {
+      return /^https?:\/\//i.test(str);
+    }
+
+    document.getElementById("generateBtn").addEventListener("click", () => {
+      const errorBox = document.getElementById("error");
+      errorBox.textContent = "";
+
+      let gamesInput = document.getElementById("games").value.trim();
+      if (!gamesInput) {
+        errorBox.textContent = "please enter at least one game name.";
+        return
+      }
+
+      const games = gamesInput.split(",").map(g => g.trim()).filter(Boolean);
+      if (games.length === 0) {
+        errorBox.textContent = "please enter valid game names.";
+        return;
+      }
+
+      const imgPathRaw = document.getElementById("imgPath").value.trim().replace(/\/+$/, "");
+      const caseOption = document.getElementById("caseOption").value;
+      const outputType = document.getElementById("outputType").value;
+      const customUrlPathRaw = document.getElementById("customUrlPath").value.trim().replace(/\/+$/, "");
+      const customTemplateRaw = document.getElementById("template").value.trim();
+
+      let output = "";
+
+      games.forEach(game => {
+        const formattedName = formatText(game, caseOption);
+        const idName = toIdFormat(game);
+
+        let img;
+        if (isFullUrl(imgPathRaw)) {
+          img = `${imgPathRaw}/${idName}.png`;
+        } else if (imgPathRaw) {
+          img = `${imgPathRaw}/${idName}.png`;
+        } else {
+          img = `${idName}.png`;
+        }
+
+        let linkUrl;
+        if (customUrlPathRaw) {
+          if (customUrlPathRaw.includes("?") || customUrlPathRaw.endsWith("/")) {
+            linkUrl = `${customUrlPathRaw}${idName}`;
+          } else {
+            linkUrl = `${customUrlPathRaw}/${idName}`;
+          }
+        } else {
+          linkUrl = `/iframe.html?url=/games/${idName}/index.html`;
+        }
+
+        let template = templates[outputType] || templates.div;
+
+        if (customTemplateRaw) {
+          template = customTemplateRaw;
+        }
+
+        const html = template
+          .replaceAll("{name}", formattedName)
+          .replaceAll("{lowercase}", idName)
+          .replaceAll("{img}", img)
+          .replaceAll("{linkUrl}", linkUrl)
+          .replaceAll("{path}", imgPathRaw);
+
+        output += html + "\n\n";
+      });
+
+      document.getElementById("output").textContent = output.trim();
+    });
+
+    document.getElementById("template").value = templates.div;
+  </script>
+</body>
+</html>
